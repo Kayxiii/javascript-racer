@@ -3,18 +3,23 @@
 # Orignal Repository: https://github.com/jakesgordon/javascript-racer
 # Cloned Repository:https://github.com/Kayxiii/javascript-racer
 
-FROM nginx:latest
+# Base image
+FROM node:18-slim
 
 # Set maintainer information
 LABEL maintainer="Tan Jia Xuan jiaxuann1101@gmail.com"
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Set working directory inside the container
+WORKDIR /usr/src/app
 
-# Copy project files to Nginx's default HTML directory
-COPY . /usr/share/nginx/html/
+# Copy project files
+COPY . .
+
+# Install HTTP server
+RUN npm install -g http-server
 
 # Expose port 5000
 EXPOSE 5000
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start http-server
+CMD ["http-server", ".", "-p", "5000"]
